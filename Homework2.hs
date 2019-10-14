@@ -21,7 +21,7 @@ module Homework2 where
 
 	encode :: Cipher -> Int -> Char -> Char
 	encode cipher offset character
-		| alphaPos character == alphaPos (currentChr cipher) = head cipher
+		| (alphaPos character - offset) `mod` 26 == (alphaPos (currentChr cipher)) `mod` 26 = head cipher 
 		| otherwise = encode (tail cipher) offset character
 
 	{- 
@@ -31,6 +31,11 @@ module Homework2 where
 	-}
 	currentChr :: Cipher -> Char
 	currentChr cipher = chr (91 - length cipher)
+
+
+
+
+
 
 
 
