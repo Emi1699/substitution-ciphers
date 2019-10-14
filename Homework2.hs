@@ -32,10 +32,10 @@ module Homework2 where
 	currentChr :: Cipher -> Char
 	currentChr cipher = chr (91 - length cipher)
 
-
-
-
-
+	encodeMessage :: Cipher -> Int -> String -> String
+	encodeMessage cipher offset message
+		| length message > 0 = encode cipher offset (head message) : encodeMessage cipher offset (tail message)
+		| otherwise = [] -- doesn't work without this guard???
 
 
 
