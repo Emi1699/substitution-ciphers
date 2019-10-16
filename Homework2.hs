@@ -42,11 +42,9 @@ module Homework2 where
 		| length encMessage > 0 = reverseEncode cipher offset (head encMessage) : reverseEncodeMessage cipher offset (tail encMessage)
 		| otherwise = []
 
-	letterStats :: String -> [(Char, Int)]
-	letterStats message
-		| 
-		| oherwise = []
 
+	letterStats :: String -> [(Char, Int)]
+	letterStats message = [(chr, p) | chr <- ['A'..'Z'], let p = percent (length (filter (==chr) message)) (length message), p > 0]
 
 	{- 
 	 we're always moving through both the alphabet and the cipher at the same rate
