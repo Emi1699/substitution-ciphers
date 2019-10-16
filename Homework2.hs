@@ -44,7 +44,18 @@ module Homework2 where
 
 
 	letterStats :: String -> [(Char, Int)]
-	letterStats message = [(chr, p) | chr <- ['A'..'Z'], let p = percent (length (filter (==chr) message)) (length message), p > 0]
+	letterStats message = mergesort cmp [(chr, p) | chr <- ['A'..'Z'], let p = percent (length (filter (==chr) message)) (length message), p > 0]
+
+
+	partialDecode :: [(Char, Char)] -> String -> String
+	partialDecode guesses message
+		| length guesses > 0 = partialDecode (tail guesses) (map (\x -> if x == snd (head guesses) then fst (head guesses); else x) message)
+		| otherwise = message
+
+	cmp :: (Char, Int) -> (Char, Int) -> Bool
+	cmp t1 t2 
+		| snd t1 < snd t2 = False
+		| otherwise = True
 
 	{- 
 	 we're always moving through both the alphabet and the cipher at the same rate
