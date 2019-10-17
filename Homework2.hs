@@ -49,13 +49,15 @@ module Homework2 where
 
 	partialDecode :: [(Char, Char)] -> String -> String
 	partialDecode guesses message
-		| length guesses > 0 = partialDecode (tail guesses) (map (\x -> if x == snd (head guesses) then fst (head guesses); else x) message)
+		| length guesses > 0 = partialDecode (tail guesses) (map (\x -> if x == snd (head guesses) then toLower (fst (head guesses)); else x) message)
 		| otherwise = message
 
 	cmp :: (Char, Int) -> (Char, Int) -> Bool
 	cmp t1 t2 
 		| snd t1 < snd t2 = False
 		| otherwise = True
+
+	myGuesses = [('E', 'W'), ('T', 'J'), ('G', 'L'), ('Y', 'Z'), ('P', 'T'), ('V', 'H'), ('A', 'A'), ('O', 'F'), ('I', 'Q'), ('N', 'X'), ('S', 'E'), ('H', 'C'), ('R', 'Y'), ('D', 'N'), ('L', 'P'), ('C', 'M'), ('U', 'B'), ('M', 'V'), ('W', 'D'), ('F', 'R')]
 
 	{- 
 	 we're always moving through both the alphabet and the cipher at the same rate
