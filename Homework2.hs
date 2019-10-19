@@ -7,8 +7,8 @@ module Homework2 where
 	import Data.Char
 	import AssignmentHelp
 
-	-- myCipher :: Cipher
-	-- myCipher = "EKMFLGDQVZNTOWYHKUSPAIBRCJ"
+	myCipher :: Cipher
+	myCipher = "EKMFLGDQVZNTOWYHKUSPAIBRCJ"
 
 	validateCipher :: Cipher -> Bool
 	validateCipher cipher = length cipher == 26 && charsUniq cipher
@@ -25,11 +25,11 @@ module Homework2 where
 	encode cipher offset character
 		| (alphaPos character - offset) `mod` 26 == (alphaPos (currentAlphabetChr cipher)) `mod` 26 = head cipher 
 		| otherwise = encode (tail cipher) offset character
+		
 
 	encodeMessage :: Cipher -> Int -> String -> String
-	encodeMessage cipher offset message
-		| length message > 0 = encode cipher offset (head message) : encodeMessage cipher offset (tail message)
-		| otherwise = [] -- doesn't work without this guard???
+	encodeMessage cipher offset [] = []
+	encodeMessage cipher offset (x:xs) = encode cipher offset x : encodeMessage cipher offset xs
 
 
 	reverseEncode :: Cipher -> Int -> Char -> Char
@@ -37,10 +37,12 @@ module Homework2 where
 		| encChar == head cipher = chr (((alphaPos (currentAlphabetChr cipher) + offset) `mod` 26) + ord 'A')
 		| otherwise = reverseEncode (tail cipher) offset encChar
 
+
+
 	reverseEncodeMessage :: Cipher -> Int -> String -> String
-	reverseEncodeMessage cipher offset encMessage
-		| length encMessage > 0 = reverseEncode cipher offset (head encMessage) : reverseEncodeMessage cipher offset (tail encMessage)
-		| otherwise = []
+	reverseEncodeMessage cipher offset [] = []
+	reverseEncodeMessage cipher offset (x:xs) = reverseEncode cipher offset x : reverseEncodeMessage cipher offset xs
+		
 
 
 	letterStats :: String -> [(Char, Int)]
@@ -52,13 +54,16 @@ module Homework2 where
 		| length guesses > 0 = partialDecode (tail guesses) (map (\x -> if x == snd (head guesses) then toLower (fst (head guesses)); else x) message)
 		| otherwise = message
 
+
+	-- helper functions
+
 	cmp :: (Char, Int) -> (Char, Int) -> Bool
 	cmp t1 t2 
 		| snd t1 < snd t2 = False
 		| otherwise = True
 
-	myGuesses = [('E', 'W'), ('T', 'J'), ('G', 'L'), ('Y', 'Z'), ('P', 'T'), ('V', 'H'), ('A', 'A'), ('O', 'F'), ('I', 'Q'), ('N', 'X'), ('S', 'E'), ('H', 'C'), ('R', 'Y'), ('D', 'N'), ('L', 'P'), ('C', 'M'), ('U', 'B'), ('M', 'V'), ('W', 'D'), ('F', 'R')]
-
+	myGuesses = [('E', 'W'), ('T', 'J'), ('G', 'L'), ('Y', 'Z'), ('P', 'T'), ('V', 'H'), ('S', 'A'), ('O', 'F'), ('I', 'Q'), ('N', 'X'), ('S', 'E'), ('H', 'C'), ('R', 'Y'), ('D', 'N'), ('L', 'P'), ('C', 'M'), ('U', 'B'), ('P', 'V'), ('W', 'D'), ('F', 'R')]
+	
 	{- 
 	 we're always moving through both the alphabet and the cipher at the same rate
 	 so, 'currentChr cipher' will return the letter of the alphabet that corresponds to the character we're currently at in the cipher
