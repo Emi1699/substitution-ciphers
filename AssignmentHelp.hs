@@ -6,7 +6,7 @@ module AssignmentHelp where
  import Data.List -- needed for delete etc
 
  ----------------------------------------------------------- 
- -- define a type for Cipjhgfjgfkjgfkher to make functions more clear
+ -- define a type for Cipher to make functions more clear
  -- (the cipher is assumed to be a substitution cipher for letters)
  type Cipher = String
 
